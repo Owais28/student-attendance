@@ -2,7 +2,7 @@ import { Box, List, Stack, useColorModeValue, Text } from "@chakra-ui/react";
 import React from "react";
 import { ListItem } from "./ListItem";
 
-export const Feed = ({ students }) => {
+export const Feed = ({ students, updateCheckOut }) => {
   return (
     <Box p={5}>
       <Stack
@@ -27,12 +27,14 @@ export const Feed = ({ students }) => {
           </Text>
         ) : (
           <List>
-            {students.map((student) => (
+            {students.map((student, key) => (
               <ListItem
+                key={key}
                 name={student.name}
                 checkIn={student.checkIn}
                 roll_no={student.roll_no}
                 checkOut={student.checkOut}
+                handleCheckOut={updateCheckOut}
               />
             ))}
           </List>

@@ -13,24 +13,33 @@ import {
   DrawerCloseButton,
   InputGroup,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 export const AddButton = ({ handleStudents }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [student, setStudent] = useState({});
+  const toast = useToast();
+
   const addStudent = () => {
     if (
       student?.name !== undefined &&
       student?.roll_no !== undefined &&
-      student?.checkIn !== undefined &&
-      student?.checkOut !== undefined
+      student?.checkIn !== undefined
+      // student?.checkOut !== undefined
     ) {
       handleStudents(student);
+      setStudent({});
       onClose();
       // setStudent({});
     } else {
-      console.log("Please add all information.");
+      toast({
+        title: "Please fill all fields.",
+        status: "error",
+        position: "top",
+        variant: "subtle",
+      });
     }
   };
   return (

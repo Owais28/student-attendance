@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   ListItem as LI,
   Avatar,
@@ -7,10 +7,34 @@ import {
   Stack,
   Box,
   Flex,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  useDisclosure,
+  DrawerOverlay,
+  FormLabel,
+  Input,
+  Button,
 } from "@chakra-ui/react";
-export const ListItem = ({ name, roll_no, checkIn, checkOut, ...props }) => {
+export const ListItem = ({
+  name,
+  roll_no,
+  checkIn,
+  checkOut,
+  handleCheckOut,
+  ...props
+}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [checkOutNew, setCheckOutNew] = useState("");
+
+  const checkOutRef = useRef();
+
   return (
     <LI
+      onClick={onOpen}
       px={3}
       py={3}
       borderBottomWidth={1}
@@ -36,6 +60,47 @@ export const ListItem = ({ name, roll_no, checkIn, checkOut, ...props }) => {
           {checkIn} - {checkOut}
         </Text>
       </Box>
+      <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px" fontWeight={"bold"}>
+            Update Checkout
+          </DrawerHeader>
+
+          <DrawerBody>
+            <Stack spacing="24px">
+              <Box>
+                <FormLabel htmlFor="checkout">Checkout</FormLabel>
+                <Input
+                  type="time"
+                  id="checkout"
+                  ref={checkOutRef}
+                  value={checkOutNew}
+                  onChange={(e) => setCheckOutNew(e.target.value)}
+                  placeholder="Please enter checkout to update"
+                />
+              </Box>
+            </Stack>
+          </DrawerBody>
+          <DrawerFooter borderTopWidth="1px">
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme="teal"
+              onClick={(e) => {
+                handleCheckOut(roll_no, checkOutNew);
+                onClose();
+                checkOutRef.current.value = "";
+                setCheckOutNew("");
+              }}
+            >
+              Update
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </LI>
   );
 };

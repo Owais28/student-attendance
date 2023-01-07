@@ -13,11 +13,24 @@ function App() {
   const handleStudents = (newStudent) => {
     setStudents((students) => [...students, newStudent]);
   };
+
+  const updateCheckOut = (roll_no, checkOut) => {
+    setStudents((students) =>
+      students.map((student) => {
+        if (student.roll_no === roll_no) {
+          return {
+            ...student,
+            checkOut: checkOut,
+          };
+        } else student;
+      })
+    );
+  };
   return (
     <Box bg={useColorModeValue("gray.100")} height="100vh" maxH="100vh">
       <AppBar students={students} />
       <InfoBar />
-      <Feed students={students} />
+      <Feed students={students} updateCheckOut={updateCheckOut} />
       <AddButton handleStudents={handleStudents} />
     </Box>
   );
