@@ -15,12 +15,18 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const AddButton = ({ handleStudents }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [student, setStudent] = useState({});
   const toast = useToast();
+
+  let vibrater = null;
+
+  useEffect(() => {
+    vibrater = navigator.vibrate;
+  }, []);
 
   const addStudent = () => {
     if (
@@ -34,6 +40,7 @@ export const AddButton = ({ handleStudents }) => {
       onClose();
       // setStudent({});
     } else {
+      vibrater(500);
       toast({
         title: "Please fill all fields.",
         status: "error",
