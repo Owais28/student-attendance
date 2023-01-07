@@ -22,10 +22,10 @@ export const AddButton = ({ handleStudents }) => {
   const [student, setStudent] = useState({});
   const toast = useToast();
 
-  let vibrater = null;
+  let vibrater;
 
   useEffect(() => {
-    vibrater = navigator.vibrate;
+    vibrater = window.navigator.vibrate;
   }, []);
 
   const addStudent = () => {
@@ -40,7 +40,7 @@ export const AddButton = ({ handleStudents }) => {
       onClose();
       // setStudent({});
     } else {
-      vibrater(500);
+      if ("function" === typeof vibrater) vibrater(300);
       toast({
         title: "Please fill all fields.",
         status: "error",
