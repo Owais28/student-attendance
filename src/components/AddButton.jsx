@@ -13,9 +13,6 @@ import {
   DrawerCloseButton,
   InputGroup,
   Stack,
-  InputLeftAddon,
-  InputRightAddon,
-  Select,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
